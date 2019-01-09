@@ -15,63 +15,78 @@ if (!empty($agent_data['app'][$name])) {
 echo ' mysql';
 $metrics = array();
 
-// General Stats
+// General Stats. The RRD tags are mapped from field names produced by librenms-agent
 $mapping = array(
+    // Innodb log
     'IDBLBSe' => 'cr',
     'IBLFh'   => 'ct',
     'IBLWn'   => 'cu',
+    // Sorts
     'SRows'   => 'ck',
     'SRange'  => 'cj',
     'SMPs'    => 'ci',
     'SScan'   => 'cl',
+    // Insert buffer
     'IBIRd'   => 'ai',
     'IBIWr'   => 'aj',
     'IBILg'   => 'ak',
     'IBIFSc'  => 'ah',
+    // Innodb operation counters
     'IDBRDd'  => 'b2',
     'IDBRId'  => 'b0',
     'IDBRRd'  => 'b3',
     'IDBRUd'  => 'b1',
+    // Innodb page stats
     'IBRd'    => 'ae',
     'IBCd'    => 'af',
     'IBWr'    => 'ag',
+    // Locks
     'TLIe'    => 'b5',
     'TLWd'    => 'b4',
+    // Innodb memory use
     'IBPse'   => 'aa',
     'IBPDBp'  => 'ac',
     'IBPFe'   => 'ab',
     'IBPMps'  => 'ad',
+    // Tables & files
     'TOC'     => 'bc',
     'OFs'     => 'b7',
     'OTs'     => 'b8',
     'OdTs'    => 'b9',
+    // Locks & waits
     'IBSRs'   => 'ay',
     'IBSWs'   => 'ax',
     'IBOWs'   => 'az',
-    'QCs'     => 'c1',
-    'QCeFy'   => 'bu',
+    // Connection counters
     'MaCs'    => 'bl',
     'MUCs'    => 'bf',
     'ACs'     => 'bd',
     'AdCs'    => 'be',
     'TCd'     => 'bi',
     'Cs'      => 'bn',
+    // Transactions created
     'IBTNx'   => 'a5',
+    // Myisam reads/writes
     'KRRs'    => 'a0',
     'KRs'     => 'a1',
     'KWR'     => 'a2',
     'KWs'     => 'a3',
+    // Query cache
     'QCQICe'  => 'bz',
     'QCHs'    => 'bv',
     'QCIs'    => 'bw',
     'QCNCd'   => 'by',
     'QCLMPs'  => 'bx',
+    'QCs'     => 'c1',
+    'QCeFy'   => 'bu',
+    // Temporary objects
     'CTMPDTs' => 'cn',
     'CTMPTs'  => 'cm',
     'CTMPFs'  => 'co',
     'IBIIs'   => 'au',
     'IBIMRd'  => 'av',
     'IBIMs'   => 'aw',
+    // Asyncronous IO
     'IBILog'  => 'al',
     'IBISc'   => 'am',
     'IBIFLg'  => 'an',
@@ -79,14 +94,18 @@ $mapping = array(
     'IBIIAo'  => 'ap',
     'IBIAd'   => 'as',
     'IBIAe'   => 'at',
+    // Select types
     'SFJn'    => 'cd',
     'SFRJn'   => 'ce',
     'SRe'     => 'cf',
     'SRCk'    => 'cg',
     'SSn'     => 'ch',
+    // Slow queries
     'SQs'     => 'b6',
+    // Sent & received
     'BRd'     => 'cq',
     'BSt'     => 'cp',
+    // Command counters
     'CDe'     => 'c6',
     'CIt'     => 'c4',
     'CISt'    => 'ca',
@@ -96,6 +115,8 @@ $mapping = array(
     'CSt'     => 'c5',
     'CUe'     => 'c3',
     'CUMi'    => 'c9',
+    // Replication
+    'SSBM'    => 'br',
 );
 
 $data = explode("\n", $mysql);
@@ -192,7 +213,9 @@ $rrd_def = RrdDefinition::make()
     ->addDataset('CRSt', 'DERIVE', 0, 125000000000)
     ->addDataset('CSt', 'DERIVE', 0, 125000000000)
     ->addDataset('CUe', 'DERIVE', 0, 125000000000)
-    ->addDataset('CUMi', 'DERIVE', 0, 125000000000);
+    ->addDataset('CUMi', 'DERIVE', 0, 125000000000),
+    ->addDataset('SSBM', 'GAUGE', 0, 125000000000);
+
 
 $tags = compact('name', 'app_id', 'rrd_name', 'rrd_def');
 data_update($device, 'app', $tags, $fields);
