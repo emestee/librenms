@@ -9,6 +9,8 @@ $app_sections = array(
     'system'  => 'System',
     'queries' => 'Queries',
     'innodb'  => 'InnoDB',
+    'replication' => 'Replication'
+
 );
 
 unset($sep);
@@ -63,6 +65,10 @@ $graphs['innodb'] = array(
     'mysql_innodb_transactions'         => 'InnoDB Transactions',
 );
 
+$graphs['replication'] = array(
+    'mysql_replication_slave_lag' => 'Replication lag'
+);
+
 foreach ($graphs[$vars['app_section']] as $key => $text) {
     $graph_type            = $key;
     $graph_array['height'] = '100';
@@ -70,7 +76,7 @@ foreach ($graphs[$vars['app_section']] as $key => $text) {
     $graph_array['to']     = $config['time']['now'];
     $graph_array['id']     = $app['app_id'];
     $graph_array['type']   = 'application_'.$key;
-    
+
     echo '<div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">'.$text.'</h3>
