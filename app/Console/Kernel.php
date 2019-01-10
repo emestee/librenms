@@ -28,16 +28,19 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * Register the Closure based commands for the application.
+     * Register the custom commands for the application.
      *
      * @return void
      */
     protected function commands()
     {
+        // Closure-based general commands
         require base_path('routes/console.php');
 
+        // Developer commands
         if ($this->app->environment() !== 'production') {
-            require base_path('routes/dev-console.php');
+            $prefix = "App\Console\Commands\Developer\\";
+            $this->commands[] = $prefix . 'ReleaseTag';
         }
     }
 
