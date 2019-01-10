@@ -213,7 +213,7 @@ $rrd_def = RrdDefinition::make()
     ->addDataset('CRSt', 'DERIVE', 0, 125000000000)
     ->addDataset('CSt', 'DERIVE', 0, 125000000000)
     ->addDataset('CUe', 'DERIVE', 0, 125000000000)
-    ->addDataset('CUMi', 'DERIVE', 0, 125000000000),
+    ->addDataset('CUMi', 'DERIVE', 0, 125000000000)
     ->addDataset('SSBM', 'GAUGE', 0, 125000000000);
 
 

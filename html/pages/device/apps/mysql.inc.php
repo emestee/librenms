@@ -10,7 +10,6 @@ $app_sections = array(
     'queries' => 'Queries',
     'innodb'  => 'InnoDB',
     'replication' => 'Replication'
-
 );
 
 unset($sep);
