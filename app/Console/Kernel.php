@@ -37,7 +37,8 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
 
         if ($this->app->environment() !== 'production') {
-            require base_path('routes/dev-console.php');
+            $prefix = "App\Console\Commands\Developer\\";
+            $this->commands[] = $prefix . 'ReleaseTag';
         }
     }
 
